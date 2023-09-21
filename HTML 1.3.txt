@@ -64,7 +64,7 @@
     </div>
 
     <script>
-        // Vue 2 code goes here
+        // Vue code goes here
         const About = { template: '<div><h2>About Me</h2><p>I am the the person responsible for making this website</p></div>' };
         const Projects = {
             template: `
