@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css"> <!-- Link to external CSS file -->
+    <link rel="icon" href="favicon.ico">
+    <title>Your Portfolio</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-router@3.5.2/dist/vue-router.js"></script>
+</head>
+<body>
+    <div id="app">
+        <header>
+            <h1>Seth Holtkamp</h1>
+            <nav>
+                <ul>
+                    <li><router-link to="/about">About</router-link></li>
+                    <li><router-link to="/projects">Projects</router-link></li>
+                    <li><router-link to="/contact">Contact</router-link></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <router-view></router-view>
+
+            <!-- Table Example -->
+            <h2>Sample Table</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>John Doe</td>
+                        <td>john@example.com</td>
+                    </tr>
+                    <tr>
+                        <td>Jane Smith</td>
+                        <td>jane@example.com</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Form Example -->
+            <h2>Contact Form</h2>
+            <form>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                <br>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <br>
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" rows="4" required></textarea>
+                <br>
+                <button type="submit">Submit</button>
+            </form>
+        </main>
+    </div>
+
+    <script>
+        // Vue 2 code goes here
+        const About = { template: '<div><h2>About Me</h2><p>I am the the person responsible for making this website</p></div>' };
+        const Projects = {
+            template: `
+                <div>
+                    <h2>Projects</h2>
+                    <div class="project" v-for="project in projects" :key="project.id" @click="selectProject(project)">
+                        <h3>{{ project.title }}</h3>
+                        <p>{{ project.description }}</p>
+                    </div>
+                </div>
+            `,
+            data() {
+                return {
+                    projects: [
+                        {
+                            id: 1,
+                            title: "Project 1.1",
+                            description: "Task 1.1",
+                            details: "GitHub htps://github.com/boim8/My-Website.git"
+                        },
+                        {
+                            id: 2,
+                            title: "Project 1.2",
+                            description: "Task 1.2",
+                            details: "Github link: htps://github.com/boim8/1.2"
+                        },
+                        // Add more project entries as needed
+                    ]
+                };
+            },
+            methods: {
+                selectProject(project) {
+                    this.$router.push(`/projects/${project.id}`);
+                }
+            }
+        };
+
+        const Contact = { template: '<div><h2>Contact Me</h2><p>Email: s222241523@deakin.edu.au</p><p>LinkedIn: <a href="https://www.linkedin.com/in/seth-holtkamp-7bab62269/" target="_blank">Your LinkedIn Profile</a></p></div>' };
+
+        const ProjectDetails = {
+            template: `
+                <div>
+                    <h2>{{ project.title }} Details</h2>
+                    <p>{{ project.details }}</p>
+                    <router-link to="/projects">Back to Projects</router-link>
+                </div>
+            `,
+            data() {
+                return {
+                    project: null
+                };
+            },
+            created() {
+                const projectId = this.$route.params.id;
+                // Fetch project details based on projectId (You can implement this part)
+                // For now, a placeholder project is used
+                this.project = {
+                    id: projectId,
+                    title: `Project ${projectId}`,
+                    description: `Description of Project ${projectId}.`,
+                    details: `This is the detailed information about Project ${projectId}.`
+                };
+            }
+        };
+
+        const routes = [
+            { path: '/about', component: About },
+            { path: '/projects', component: Projects },
+            { path: '/projects/:id', component: ProjectDetails },
+            { path: '/contact', component: Contact },
+        ];
+
+        const router = new VueRouter({
+            routes,
+        });
+
+        new Vue({
+            el: '#app',
+            router
+        });
+    </script>
+</body>
+</html>
+
